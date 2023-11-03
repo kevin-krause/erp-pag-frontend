@@ -32,18 +32,14 @@ const Expenses = () => {
 
         console.log(newExpense)
 
-        fetch(
-            'https://api-pagani-932e9d7b1daf.herokuapp.com/expense/newExpense',
-            {
-                mode: 'no-cors',
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: 'Bearer YOUR_JWT_TOKEN'
-                },
-                body: JSON.stringify(newExpense)
-            }
-        )
+        fetch('/api/expense/newExpense', {
+            mode: 'no-cors',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newExpense)
+        })
             .then(response => {
                 if (!response.ok) {
                     return response.json().then(data => {

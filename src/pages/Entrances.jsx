@@ -74,8 +74,7 @@ const Entrances = () => {
         fetch('/api/serviceOrder/newOS', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer YOUR_JWT_TOKEN'
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 ...serviceOrder,
