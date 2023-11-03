@@ -7,7 +7,7 @@ export default defineConfig({
         proxy: {
             '/api': {
                 target: 'https://api-pagani-932e9d7b1daf.herokuapp.com',
-                secure: true
+                secure: false
             }
         }
     },
