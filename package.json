@@ -1,6 +1,6 @@
 {
     "name": "client",
-    "private": true,
+    "private": false,
     "engines": {
         "node": "18.16.0"
     },
