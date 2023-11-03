@@ -55,7 +55,6 @@ const Entrances = () => {
             services: osServices
         })
     }
-
     const createOS = async osServices => {
         const total = osServices.reduce(
             (acc, service) => acc + service.value,
