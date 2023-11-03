@@ -10,7 +10,7 @@
         "dev": "vite",
         "build": "vite build",
         "preview": "vite preview",
-        "start": "npm install --force && npm run preview"
+        "start": "npm install --force && vite --host 0.0.0.0 --port $PORT preview"
     },
     "dependencies": {
         "@date-io/date-fns": "^2.17.0",
