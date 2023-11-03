@@ -1,1 +1,1 @@
-web: npm install --force
+web:npm install --force
