@@ -70,16 +70,19 @@ const Entrances = () => {
         })
 
         console.log(serviceOrder)
-        fetch('/api/serviceOrder/newOS', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                ...serviceOrder,
-                amount: amountFloat
-            })
-        })
+        fetch(
+            'https://backend-pagani-24fdde363504.herokuapp.com/api/serviceOrder/newOS',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    ...serviceOrder,
+                    amount: amountFloat
+                })
+            }
+        )
             .then(response => {
                 if (!response.ok) {
                     return response.json().then(data => {

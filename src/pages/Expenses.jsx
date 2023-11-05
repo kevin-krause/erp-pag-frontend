@@ -33,7 +33,7 @@ const Expenses = () => {
         console.log(newExpense)
 
         fetch(
-            '/api/expense/newExpense',
+            'https://backend-pagani-24fdde363504.herokuapp.com/api/expense/newExpense',
             {
                 method: 'POST',
                 headers: {
