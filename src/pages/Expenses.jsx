@@ -32,17 +32,21 @@ const Expenses = () => {
 
         console.log(newExpense)
 
-        fetch('/api/expense/newExpense', {
-            mode: 'no-cors',
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newExpense)
-        })
+        fetch(
+            'https://api-pagani-932e9d7b1daf.herokuapp.com/api/expense/newExpense',
+            {
+                mode: 'no-cors',
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newExpense)
+            }
+        )
             .then(response => {
                 if (!response.ok) {
                     return response.json().then(data => {
+                        console.log('Error kevin: ', data.message.message)
                         throw new Error(data.message.message)
                     })
                 }
@@ -59,6 +63,7 @@ const Expenses = () => {
     return (
         <div className="grid grid-cols-3">
             <div className="px-6 col-span-2 shadow-lg mx-6 mt-[0px] pb-4 rounded-b-lg">
+                kevin
                 <div className="">
                     <div className="flex justify-between bg-zinc-200 p-6 mx-6 rounded-b-lg">
                         <div className="mx-[-8px] bg-zinc-100 rounded-lg shadow-lg">
