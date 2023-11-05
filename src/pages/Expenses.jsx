@@ -35,7 +35,6 @@ const Expenses = () => {
         fetch(
             'https://backend-pagani-24fdde363504.herokuapp.com/api/expense/newExpense',
             {
-                mode: 'no-cors',
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
