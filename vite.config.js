@@ -5,8 +5,8 @@ import react from '@vitejs/plugin-react-swc'
 export default defineConfig({
     server: {
         proxy: {
-            '/kkkkk': {
-                target: 'https://api-pagani-932e9d7b1daf.herokuapp.com',
+            '/api': {
+                target: 'https://backend-pagani-24fdde363504.herokuapp.com',
                 secure: false
             }
         }
