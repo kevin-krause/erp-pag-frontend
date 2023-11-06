@@ -90,7 +90,7 @@ export function SingleSelect(props) {
                 <Select
                     labelId="demo-single-name-label"
                     id="demo-single-name"
-                    value={selectedValue} // Use selectedValue
+                    value={props.valueDefault || selectedValue} // Use selectedValue
                     onChange={handleChange}
                     input={<OutlinedInput label="Name" />}
                     MenuProps={MenuProps}
@@ -98,7 +98,7 @@ export function SingleSelect(props) {
                     {props.data.map(name => (
                         <MenuItem
                             key={name}
-                            value={name}
+                            value={props.valueDefault || 'name'}
                             style={getStyles(name, selectedValue, theme)}
                         >
                             {name}

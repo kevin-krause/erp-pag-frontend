@@ -7,6 +7,7 @@ import ServiceList from '../components/ServicesList'
 import formatCurrencyBRL from '../functions/formatCurrencyBRL'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { useParams } from 'react-router-dom'
 
 const documents_ = ['Ordem de Serviço', 'Invoice', 'Boleto', 'Nota Fiscal']
 const model_ = ['Padrão', 'Personalizado']
@@ -20,8 +21,10 @@ const payment_ = [
 ]
 
 const Entrances = () => {
+    const id = useParams()
     const [documents, setDocuments] = useState([])
     const [model, setModel] = useState([])
+    const [dataServices, setDataServices] = useState([])
     const [totalItemsValue, setTotalItemsValue] = useState(0)
     const [serviceOrder, setServiceOrder] = useState({
         doc: '',
@@ -55,7 +58,7 @@ const Entrances = () => {
             services: osServices
         })
     }
-    const createOS = async osServices => {
+    const createOS = async (osServices, id_) => {
         const total = osServices.reduce(
             (acc, service) => acc + service.value,
             0
@@ -69,20 +72,22 @@ const Entrances = () => {
             amount: amountFloat
         })
 
-        console.log(serviceOrder)
-        fetch(
-            'https://backend-pagani-24fdde363504.herokuapp.com/api/serviceOrder/newOS',
-            {   
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    ...serviceOrder,
-                    amount: amountFloat
-                })
-            }
-        )
+        const method = id_.id === undefined ? 'POST' : 'PUT'
+        const url =
+            id_.id === undefined
+                ? 'https://backend-pagani-24fdde363504.herokuapp.com/api/serviceOrder/newOS'
+                : `https://backend-pagani-24fdde363504.herokuapp.com/api/serviceOrder/orders/${id_.id}`
+
+        fetch(url, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                ...serviceOrder,
+                amount: amountFloat
+            })
+        })
             .then(response => {
                 if (!response.ok) {
                     return response.json().then(data => {
@@ -100,9 +105,22 @@ const Entrances = () => {
     }
 
     useEffect(() => {
+        try {
+            fetch(
+                `https://backend-pagani-24fdde363504.herokuapp.com/api/serviceOrder/orders/${id.id}`
+            )
+                .then(response => response.json())
+                .then(data => {
+                    setServiceOrder(data)
+                    setDataServices(data.services)
+                })
+        } catch (error) {
+            console.log('deu merda')
+            notify(error)
+        }
         setDocuments(documents_)
         setModel(model_)
-    }, [documents, model])
+    }, [id])
 
     return (
         <div>
@@ -172,7 +190,7 @@ const Entrances = () => {
                             id="car"
                             type="text"
                             label="Carro"
-                            defaultValue=""
+                            value={id.id !== undefined ? serviceOrder.car : ''}
                             requigreen="true"
                             onChange={event =>
                                 setServiceOrder({
@@ -185,7 +203,9 @@ const Entrances = () => {
                             id="plate"
                             type="text"
                             label="Placa"
-                            defaultValue=""
+                            value={
+                                id.id !== undefined ? serviceOrder.plate : ''
+                            }
                             requigreen="true"
                             onChange={event =>
                                 setServiceOrder({
@@ -198,7 +218,9 @@ const Entrances = () => {
                             id="carOwner"
                             type="text"
                             label="Dono"
-                            defaultValue=""
+                            value={
+                                id.id !== undefined ? serviceOrder.carOwner : ''
+                            }
                             requigreen="true"
                             onChange={event =>
                                 setServiceOrder({
@@ -211,7 +233,9 @@ const Entrances = () => {
                             id="chassi"
                             type="text"
                             label="Chassi"
-                            defaultValue=""
+                            value={
+                                id.id !== undefined ? serviceOrder.chassi : ''
+                            }
                             requigreen="true"
                             onChange={event =>
                                 setServiceOrder({
@@ -224,7 +248,11 @@ const Entrances = () => {
                             id="licenseNumber"
                             type="text"
                             label="Doc. Identificação"
-                            defaultValue=""
+                            value={
+                                id.id !== undefined
+                                    ? serviceOrder.licenseNumber
+                                    : ''
+                            }
                             requigreen="true"
                             onChange={event =>
                                 setServiceOrder({
@@ -237,7 +265,11 @@ const Entrances = () => {
                             id="documentNumber"
                             type="text"
                             label="Doc. Veículo"
-                            defaultValue=""
+                            value={
+                                id.id !== undefined
+                                    ? serviceOrder.documentNumber
+                                    : ''
+                            }
                             requigreen="true"
                             onChange={event =>
                                 setServiceOrder({
@@ -250,7 +282,9 @@ const Entrances = () => {
                             id="contact"
                             type="text"
                             label="Contato"
-                            defaultValue=""
+                            value={
+                                id.id !== undefined ? serviceOrder.contact : ''
+                            }
                             requigreen="true"
                             onChange={event =>
                                 setServiceOrder({
@@ -264,6 +298,11 @@ const Entrances = () => {
                     <div className="p-6 grid grid-cols-3 gap-8 items-center">
                         <div className="col-span-2 ml-[-4px]">
                             <SingleSelect
+                                valueDefault={
+                                    id.id !== undefined
+                                        ? serviceOrder.paymentMethod
+                                        : ''
+                                }
                                 title={'Pagamento'}
                                 data={payment_}
                                 onValueChange={selectedValue => {
@@ -281,9 +320,9 @@ const Entrances = () => {
                     <div className=" px-6 grid grid-cols-1 gap-8 items-center">
                         <button
                             className="border-2 px-4 py-2 bg-slate-900 text-sky-200 hover:bg-slate-800 hover:border-sky-200 transition-colors  rounded-md"
-                            onClick={() => createOS(serviceOrder.services)}
+                            onClick={() => createOS(serviceOrder.services, id)}
                         >
-                            Create OS
+                            {id.id === undefined ? 'Create OS' : 'Save OS'}
                         </button>
                         <ToastContainer />
                     </div>
@@ -291,10 +330,14 @@ const Entrances = () => {
                 <div className="border-2 border-zinc-300 rounded-lg w-full">
                     <h1 className="p-6 font-bold mb-[-35px]">Serviços</h1>
                     <div className="p-6 flex gap-8">
-                        <ServiceList onFormSubmit={handleFormSubmit} />
+                        <ServiceList
+                            onFormSubmit={handleFormSubmit}
+                            data={dataServices || ''}
+                        />
                     </div>
                 </div>
             </div>
+            {console.log(dataServices)}
         </div>
     )
 }

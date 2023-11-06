@@ -7,10 +7,13 @@ import InfoInput from '../components/InfoInput'
 import formatCurrencyBRL from '../functions/formatCurrencyBRL'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import ListData from '../components/ListData'
+import { useParams } from 'react-router-dom'
 
 const expenseTypes = ['Boletos', 'Pagamentos', 'Pix']
 
 const Expenses = () => {
+    const id = useParams()
     const [expenseType, setExpenseType] = useState('')
     const [description, setDescription] = useState('')
     const [amount, setAmount] = useState(0)
@@ -19,6 +22,10 @@ const Expenses = () => {
     const [referenceNumber, setReferenceNumber] = useState('')
 
     const notify = (e, title) => (title ? toast(`${title}: ${e}`) : toast(e))
+
+    useEffect(() => {
+        console.log('kevin ', id)
+    })
 
     const handleFormSubmit = () => {
         const newExpense = {
@@ -33,11 +40,13 @@ const Expenses = () => {
         console.log(newExpense)
 
         fetch(
-            'https://backend-pagani-24fdde363504.herokuapp.com/api/expense/newExpense',
+            'https://api-pagani-932e9d7b1daf.herokuapp.com/expense/newExpense',
             {
+                mode: 'no-cors',
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer YOUR_JWT_TOKEN'
                 },
                 body: JSON.stringify(newExpense)
             }
@@ -45,7 +54,6 @@ const Expenses = () => {
             .then(response => {
                 if (!response.ok) {
                     return response.json().then(data => {
-                        console.log('Error kevin: ', data.message.message)
                         throw new Error(data.message.message)
                     })
                 }
@@ -60,9 +68,8 @@ const Expenses = () => {
     }
 
     return (
-        <div className="grid grid-cols-3">
-            <div className="px-6 col-span-2 shadow-lg mx-6 mt-[0px] pb-4 rounded-b-lg">
-                kevin 2
+        <div className="grid grid-cols-2 mt-3">
+            <div className=" col-span-2 shadow-lg mx-6 mt-[0px] pb-4 rounded-b-lg">
                 <div className="">
                     <div className="flex justify-between bg-zinc-200 p-6 mx-6 rounded-b-lg">
                         <div className="mx-[-8px] bg-zinc-100 rounded-lg shadow-lg">
@@ -132,7 +139,17 @@ const Expenses = () => {
                 </div>
             </div>
 
-            <div>Lista de Notas lançadas por ordem de periodo...</div>
+            <div className="px-6 mt-4 col-span-2">
+                <div className=" shadow-md rounded-lg ">
+                    <ListData
+                        title={'Despesas'}
+                        baseUrl={'expenses'}
+                        endpoint={
+                            'https://backend-pagani-24fdde363504.herokuapp.com/api/expense/expenses'
+                        }
+                    />
+                </div>
+            </div>
         </div>
     )
 }
