@@ -72,7 +72,7 @@ const Entrances = () => {
         console.log(serviceOrder)
         fetch(
             'https://backend-pagani-24fdde363504.herokuapp.com/api/serviceOrder/newOS',
-            {
+            {   
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
