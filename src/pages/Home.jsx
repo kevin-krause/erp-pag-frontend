@@ -22,6 +22,9 @@ const Home = () => {
                     <li>
                         <Link to={'/entrances'}>Ordem de serviço</Link>
                     </li>
+                    <li>
+                        <Link to={'/expenses'}>Despesas</Link>
+                    </li>
                 </ul>
             </div>
 
