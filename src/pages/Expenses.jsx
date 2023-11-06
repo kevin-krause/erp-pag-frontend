@@ -19,7 +19,6 @@ const Expenses = () => {
     const [date, setDate] = useState('')
     const [payee, setPayee] = useState('')
     const [referenceNumber, setReferenceNumber] = useState('')
-    const [loadedData, setLoadedData] = useState(null) // Store loaded data here
 
     const notify = (e, title) => (title ? toast(`${title}: ${e}`) : toast(e))
 
@@ -30,10 +29,10 @@ const Expenses = () => {
             )
                 .then(response => response.json())
                 .then(data => {
-                    setLoadedData(data)
                     setExpenseType(data.expenseType)
                     setDescription(data.description)
                     setAmount(data.amount)
+                    setDate(data.date)
                     setPayee(data.payee)
                     setReferenceNumber(data.referenceNumber)
                 })
@@ -43,9 +42,8 @@ const Expenses = () => {
         }
     }, [id])
 
-    const handleFormSubmit = id_ => {
+    const handleFormSubmit = () => {
         const newExpense = {
-            id_: id_,
             expenseType,
             description,
             amount,
@@ -54,14 +52,13 @@ const Expenses = () => {
             referenceNumber
         }
 
-        const method = id_ === undefined ? 'POST' : 'PUT'
-        const url =
-            id === undefined
-                ? 'https://backend-pagani-24fdde363504.herokuapp.com/api/expense/newExpense'
-                : `https://backend-pagani-24fdde363504.herokuapp.com/api/expense/expenses/${id_}`
+        const method = id ? 'PUT' : 'POST'
+        const url = id
+            ? `https://backend-pagani-24fdde363504.herokuapp.com/api/expense/expenses/${id}`
+            : 'https://backend-pagani-24fdde363504.herokuapp.com/api/expense/newExpense'
 
         fetch(url, {
-            method: method,
+            method,
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -76,7 +73,7 @@ const Expenses = () => {
                 return response.json()
             })
             .then(() => {
-                notify('✅', 'Expense Created')
+                notify('✅', id ? 'Expense Updated' : 'Expense Created')
             })
             .catch(error => {
                 notify('❌', error)
@@ -101,6 +98,7 @@ const Expenses = () => {
                         <div className="px-[8px] mx-[-8px] bg-zinc-100 rounded-lg shadow-lg">
                             <DateInput
                                 label="Date"
+                                value={date}
                                 onChange={event => setDate(event.target.value)}
                             />
                         </div>
@@ -147,9 +145,9 @@ const Expenses = () => {
                         <div className=" mt-4 flex gap-4">
                             <button
                                 className="border-2 px-4 py-2 bg-slate-900 text-sky-200 h-fit hover:bg-slate-800 hover:border-sky-200 transition-colors  rounded-md"
-                                onClick={() => handleFormSubmit(id)}
+                                onClick={handleFormSubmit}
                             >
-                                {id === undefined ? 'Create' : 'Save'}
+                                {id ? 'Save' : 'Create'}
                             </button>
                             <button className="border-2 px-4 py-2 bg-green-200 text-green-500 hover:bg-green-300 border-green-500 hover:border-green-200 transition-colors  rounded-md">
                                 Read XML
