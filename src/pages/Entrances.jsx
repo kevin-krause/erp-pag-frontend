@@ -27,6 +27,7 @@ const Entrances = () => {
     const [dataServices, setDataServices] = useState([])
     const [totalItemsValue, setTotalItemsValue] = useState(0)
     const [serviceOrder, setServiceOrder] = useState({
+        _id: '',
         doc: '',
         model: '',
         car: '',
@@ -68,9 +69,17 @@ const Entrances = () => {
 
         setServiceOrder({
             ...serviceOrder,
+            _id: id_.id,
             services: osServices,
             amount: amountFloat
         })
+
+        const updatedServiceOrder = {
+            ...serviceOrder,
+            _id: id_.id, // Include the _id in the object
+            services: osServices,
+            amount: amountFloat
+        }
 
         const method = id_.id === undefined ? 'POST' : 'PUT'
         const url =
@@ -84,7 +93,7 @@ const Entrances = () => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                ...serviceOrder,
+                ...(method === 'POST' ? updatedServiceOrder : serviceOrder),
                 amount: amountFloat
             })
         })
@@ -115,7 +124,6 @@ const Entrances = () => {
                     setDataServices(data.services)
                 })
         } catch (error) {
-            console.log('deu merda')
             notify(error)
         }
         setDocuments(documents_)
@@ -337,7 +345,6 @@ const Entrances = () => {
                     </div>
                 </div>
             </div>
-            {console.log(dataServices)}
         </div>
     )
 }

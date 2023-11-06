@@ -7,41 +7,41 @@ import { BsFillEyeFill } from 'react-icons/bs'
 import formatCurrencyBRL from '../functions/formatCurrencyBRL'
 
 const ServiceList = ({ onFormSubmit, data }) => {
-    const [services, setServices] = useState(data || []);
-    const [newService, setNewService] = useState('');
-    const [newValue, setNewValue] = useState(0);
-    const [showItemFlag, setShowItemFlag] = useState(true);
-    const [itemIndex, setItemIndex] = useState(1);
+    const [services, setServices] = useState(data || [])
+    const [newService, setNewService] = useState('')
+    const [newValue, setNewValue] = useState(0)
+    const [showItemFlag, setShowItemFlag] = useState(true)
+    const [itemIndex, setItemIndex] = useState(1)
 
     const addService = () => {
-        if (newService.trim() === '' || newValue <= 0) return;
+        if (newService.trim() === '' || newValue <= 0) return
         const newServiceItem = {
             id: itemIndex,
             description: newService,
             value: newValue,
             showItem: showItemFlag
-        };
+        }
 
-        setServices([...services, newServiceItem]);
-        setNewService('');
-        setNewValue(0);
-        setItemIndex(itemIndex + 1);
-        setShowItemFlag(true);
-        onFormSubmit([...services, newServiceItem]);
+        setServices([...services, newServiceItem])
+        setNewService('')
+        setNewValue(0)
+        setItemIndex(itemIndex + 1)
+        setShowItemFlag(true)
+        onFormSubmit([...services, newServiceItem])
     }
 
     const deleteService = id => {
-        const updatedServices = services.filter(service => service.id !== id);
-        setServices(updatedServices);
+        const updatedServices = services.filter(service => service.id !== id)
+        setServices(updatedServices)
     }
 
-    const totalValue = services.reduce((acc, service) => acc + service.value, 0);
+    const totalValue = services.reduce((acc, service) => acc + service.value, 0)
 
     useEffect(() => {
         if (data) {
-            setServices(data);
+            setServices(data)
         }
-    }, [data]);
+    }, [data])
 
     return (
         <div className="w-full">
@@ -90,28 +90,21 @@ const ServiceList = ({ onFormSubmit, data }) => {
                 <tbody>
                     {services.map(service => (
                         <tr key={service.id}>
-                            <td key={service.id}>{service.description}</td>
-                            <td key={service.id}>R${service.value}</td>
-                            <td key={service.id}>
+                            <td>{service.description}</td>
+                            <td>R${service.value}</td>
+                            <td>
                                 {service.showItem ? (
-                                    <p
-                                        key={service.id}
-                                        className="p-1 bg-sky-200 w-[50px] text-center rounded-lg text-sky-700 text-sm"
-                                    >
+                                    <p className="p-1 bg-sky-200 w-[50px] text-center rounded-lg text-sky-700 text-sm">
                                         sim
                                     </p>
                                 ) : (
-                                    <p
-                                        key={service.id}
-                                        className="p-1 bg-red-200 w-[50px] text-center rounded-lg text-red-700 text-sm"
-                                    >
+                                    <p className="p-1 bg-red-200 w-[50px] text-center rounded-lg text-red-700 text-sm">
                                         não
                                     </p>
                                 )}
                             </td>
                             <td key={service.id}>
                                 <button
-                                    key={service.id}
                                     className="px-2 py-1 bg-red-300 text-red-800 w-full hover:bg-red-500 hover:text-red-300 transition-colors"
                                     onClick={() => deleteService(service.id)}
                                 >

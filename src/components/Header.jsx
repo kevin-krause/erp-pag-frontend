@@ -6,7 +6,7 @@ const Header = () => {
     return (
         <header className="bg-slate-900 shadow-md">
             <div className="flex justify-between items-center max-w-6x mx-auto px-8 py-3">
-                <Link to={'/'}>
+                <Link to={'/home'}>
                     <h1 className="font-bold text-sm sm:text-xl flex flex-wrap">
                         <span className="text-slate-300">sankhya</span>
                         <span className="text-slate-500">.erp</span>

@@ -24,7 +24,7 @@ const ListData = props => {
         }
 
         fetchData()
-    }, [])
+    }, [props.endpoint])
 
     function renderData(data) {
         if (Array.isArray(data)) {
@@ -45,7 +45,7 @@ const ListData = props => {
             <h1 className="font-bold p-2 mb-3 bg-slate-200 w-fit rounded-lg text-slate-900">
                 {props.title}
             </h1>
-            <table>
+            <table className="w-full">
                 <thead>
                     <tr>
                         {Object.keys(data[0] || {}).map((key, index) => (
@@ -65,11 +65,13 @@ const ListData = props => {
                         >
                             {Object.values(item).map((value, index) => (
                                 <td key={index} className="text-sm text-left ">
-                                    <Link to={`${props.baseUrl}/${item._id}`}>
-                                        <p className="truncate w-[50px]">
+                                    <p className="truncate w-[50px]">
+                                        <Link
+                                            to={`../${props.baseUrl}/${item._id}`}
+                                        >
                                             {renderData(value)}
-                                        </p>
-                                    </Link>
+                                        </Link>
+                                    </p>
                                 </td>
                             ))}
                         </tr>
