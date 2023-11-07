@@ -174,24 +174,14 @@ const Entrances = () => {
                             })
                         }
                     />
-                    <span className="m-2 p-2 text-xs border-2  border-zinc-200 w-[100px] flex flex-col rounded-lg">
-                        <p className="px-1 bg-zinc-500 w-fit rounded-sm text-zinc-200">
-                            total
-                        </p>
-                        <p className="mt-1 text-md">
-                            {formatCurrencyBRL(totalItemsValue)}
-                        </p>
-                    </span>
-                    <span className="my-2  ml-[-10px] p-2 text-xs bg-green-200 w-[85px] flex flex-col rounded-lg">
-                        <p className="px-1 bg-green-500 w-fit rounded-sm text-green-900">
-                            status
-                        </p>
-                        <p className="">aberta</p>
-                    </span>
+                    {/* 
+                    <span className="my-2 p-2 text-sm text-green-600 bg-green-200 w-[100px] rounded-lg">
+                        <p className="font-mono">status aberta</p>
+                    </span> */}
                 </div>
             </div>
-            <div className="flex px-6 gap-x-8 justify-between mt-2">
-                <div className="border-2 border-zinc-300 rounded-lg w-full">
+            <div className="flex px-6 py-4 mt-2 gap-x-8 justify-between border-t border-green-400 bg-zinc-100 bg-gradient-to-tl">
+                <div className="bg-zinc-100 shadow-md border-zinc-400 rounded-lg w-full">
                     <h1 className="p-6 font-bold mb-[-35px]">Notas</h1>
                     <div className="p-6 grid grid-cols-2 gap-8">
                         <InfoInput
@@ -302,7 +292,7 @@ const Entrances = () => {
                             }
                         />
                     </div>
-                    <span className="block border border-b-green-300 "></span>
+                    <span className="block border border-b-green-400 "></span>
                     <div className="p-6 grid grid-cols-3 gap-8 items-center">
                         <div className="col-span-2 ml-[-4px]">
                             <SingleSelect
@@ -327,7 +317,7 @@ const Entrances = () => {
                     </div>
                     <div className=" px-6 grid grid-cols-1 gap-8 items-center">
                         <button
-                            className="border-2 px-4 py-2 bg-slate-900 text-sky-200 hover:bg-slate-800 hover:border-sky-200 transition-colors  rounded-md"
+                            className="px-4 py-2 bg-green-500 text-white h-fit hover:bg-green-200 hover:text-green-800 transition-colors rounded-md"
                             onClick={() => createOS(serviceOrder.services, id)}
                         >
                             {id.id === undefined ? 'Create OS' : 'Save OS'}
@@ -335,7 +325,7 @@ const Entrances = () => {
                         <ToastContainer />
                     </div>
                 </div>
-                <div className="border-2 border-zinc-300 rounded-lg w-full">
+                <div className="bg-zinc-100 shadow-md border-zinc-400 rounded-lg w-full">
                     <h1 className="p-6 font-bold mb-[-35px]">Serviços</h1>
                     <div className="p-6 flex gap-8">
                         <ServiceList

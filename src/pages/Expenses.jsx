@@ -144,12 +144,12 @@ const Expenses = () => {
                         </div>
                         <div className=" mt-4 flex gap-4">
                             <button
-                                className="border-2 px-4 py-2 bg-slate-900 text-sky-200 h-fit hover:bg-slate-800 hover:border-sky-200 transition-colors  rounded-md"
+                                className="px-4 py-2 bg-green-500 text-white h-fit hover:bg-green-200 hover:text-green-800 transition-colors rounded-md"
                                 onClick={handleFormSubmit}
                             >
                                 {id ? 'Save' : 'Create'}
                             </button>
-                            <button className="border-2 px-4 py-2 bg-green-200 text-green-500 hover:bg-green-300 border-green-500 hover:border-green-200 transition-colors  rounded-md">
+                            <button className="px-4 py-2 bg-orange-500 text-white h-fit hover:bg-orange-200 hover:text-orange-800 transition-colors rounded-md">
                                 Read XML
                             </button>
 
@@ -159,8 +159,8 @@ const Expenses = () => {
                 </div>
             </div>
 
-            <div className="px-6 mt-4 col-span-2">
-                <div className=" shadow-md rounded-lg ">
+            <div className="px-6 mt-4 col-span-full">
+                <div className=" shadow-md rounded-lg w-full">
                     <ListData
                         title={'Despesas'}
                         baseUrl={'expenses'}
