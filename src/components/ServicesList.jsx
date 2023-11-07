@@ -9,14 +9,14 @@ import formatCurrencyBRL from '../functions/formatCurrencyBRL'
 const ServiceList = ({ onFormSubmit, data }) => {
     const [services, setServices] = useState(data || [])
     const [newService, setNewService] = useState('')
-    const [newValue, setNewValue] = useState(0)
+    const [newValue, setNewValue] = useState('')
     const [showItemFlag, setShowItemFlag] = useState(true)
-    const [itemIndex, setItemIndex] = useState(1)
+    // const [itemIndex, setItemIndex] = useState(1)
 
     const addService = () => {
         if (newService.trim() === '' || newValue <= 0) return
         const newServiceItem = {
-            id: itemIndex,
+            id: Math.random().toString(36).substr(2, 9),
             description: newService,
             value: newValue,
             showItem: showItemFlag
@@ -25,7 +25,6 @@ const ServiceList = ({ onFormSubmit, data }) => {
         setServices([...services, newServiceItem])
         setNewService('')
         setNewValue(0)
-        setItemIndex(itemIndex + 1)
         setShowItemFlag(true)
         onFormSubmit([...services, newServiceItem])
     }
@@ -103,7 +102,7 @@ const ServiceList = ({ onFormSubmit, data }) => {
                                     </p>
                                 )}
                             </td>
-                            <td key={service.id}>
+                            <td>
                                 <button
                                     className="px-2 py-1 bg-red-300 text-red-800 w-full hover:bg-red-500 hover:text-red-300 transition-colors"
                                     onClick={() => deleteService(service.id)}

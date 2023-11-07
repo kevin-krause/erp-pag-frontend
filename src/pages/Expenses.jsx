@@ -1,6 +1,5 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
-import Selector, { SingleSelect } from '../components/Selector'
+import { SingleSelect } from '../components/Selector'
 import DateInput from '../components/DateInput'
 import InfoInput from '../components/InfoInput'
 import formatCurrencyBRL from '../functions/formatCurrencyBRL'
@@ -13,43 +12,46 @@ const expenseTypes = ['Boletos', 'Pagamentos', 'Pix']
 
 const Expenses = () => {
     const { id } = useParams()
-    const [expenseType, setExpenseType] = useState('')
-    const [description, setDescription] = useState('')
-    const [amount, setAmount] = useState(0)
-    const [date, setDate] = useState('')
-    const [payee, setPayee] = useState('')
-    const [referenceNumber, setReferenceNumber] = useState('')
+    const [listKey, setListKey] = useState(Math.random())
+
+    const [newExpense, setNewExpense] = useState({
+        expenseType: '',
+        description: '',
+        amount: '',
+        date: '',
+        payee: '',
+        referenceNumber: ''
+    })
 
     const notify = (e, title) => (title ? toast(`${title}: ${e}`) : toast(e))
 
     useEffect(() => {
-        try {
-            fetch(
-                `https://backend-pagani-24fdde363504.herokuapp.com/api/expense/expenses/${id}`
-            )
-                .then(response => response.json())
-                .then(data => {
-                    setExpenseType(data.expenseType)
-                    setDescription(data.description)
-                    setAmount(data.amount)
-                    setDate(data.date)
-                    setPayee(data.payee)
-                    setReferenceNumber(data.referenceNumber)
-                })
-        } catch (error) {
-            console.log('Error:', error)
-            notify('❌', error)
-        }
+        if (id)
+            try {
+                fetch(
+                    `https://backend-pagani-24fdde363504.herokuapp.com/api/expense/expenses/${id}`
+                )
+                    .then(response => response.json())
+                    .then(data => {
+                        setNewExpense({
+                            expenseType: data.expenseType,
+                            description: data.description,
+                            amount: data.amount,
+                            date: data.date,
+                            payee: data.payee,
+                            referenceNumber: data.referenceNumber
+                        })
+                    })
+            } catch (error) {
+                console.log('Error:', error)
+                notify('❌', error)
+            }
     }, [id])
 
     const handleFormSubmit = () => {
-        const newExpense = {
-            expenseType,
-            description,
-            amount,
-            date,
-            payee,
-            referenceNumber
+        if (!newExpense.expenseType) {
+            notify('❌', 'Expense Type is required')
+            return
         }
 
         const method = id ? 'PUT' : 'POST'
@@ -74,71 +76,99 @@ const Expenses = () => {
             })
             .then(() => {
                 notify('✅', id ? 'Expense Updated' : 'Expense Created')
+                setListKey(Math.random())
             })
             .catch(error => {
                 notify('❌', error)
+                setListKey(Math.random())
             })
     }
 
     return (
         <div className="grid grid-cols-2 mt-3">
-            <div className=" col-span-2 shadow-lg mx-6 mt-[0px] pb-4 rounded-b-lg">
+            <div className="col-span-2 shadow-lg mx-6 mt-[0px] pb-4 rounded-b-lg">
                 <div className="">
                     <div className="flex justify-between bg-zinc-200 p-6 mx-6 rounded-b-lg">
                         <div className="mx-[-8px] bg-zinc-100 rounded-lg shadow-lg">
                             <SingleSelect
-                                valueDefault={expenseType}
+                                valueDefault={
+                                    id.id !== undefined
+                                        ? newExpense.expenseType
+                                        : ''
+                                }
                                 title={'Expense Type'}
                                 data={expenseTypes}
                                 onValueChange={selectedValue => {
-                                    setExpenseType(selectedValue)
+                                    setNewExpense({
+                                        ...newExpense,
+                                        expenseType: selectedValue
+                                    })
                                 }}
                             />
                         </div>
                         <div className="px-[8px] mx-[-8px] bg-zinc-100 rounded-lg shadow-lg">
                             <DateInput
                                 label="Date"
-                                value={date}
-                                onChange={event => setDate(event.target.value)}
+                                value={newExpense.date}
+                                onChange={event =>
+                                    setNewExpense({
+                                        ...newExpense,
+                                        date: event.target.value
+                                    })
+                                }
                             />
                         </div>
                     </div>
-                    <div className="px-[18px] grid grid-cols-2 gap-x-[116px] gap-y-4 p-6  mx-6 mt-[-4px]">
+                    <div className="px-[18px] grid grid-cols-2 gap-x-[116px] gap-y-4 p-6 mx-6 mt-[-4px]">
                         <div className="shadow-lg w-[200px]">
                             <InfoInput
-                                value={description}
+                                value={newExpense.description}
                                 type="text"
                                 label="Description"
                                 onChange={event =>
-                                    setDescription(event.target.value)
+                                    setNewExpense({
+                                        ...newExpense,
+                                        description: event.target.value
+                                    })
                                 }
                             />
                         </div>
                         <div className="shadow-lg w-[200px]">
                             <InfoInput
-                                value={amount}
+                                value={newExpense.amount}
                                 type="number"
                                 label="Amount"
                                 onChange={event =>
-                                    setAmount(parseFloat(event.target.value))
+                                    setNewExpense({
+                                        ...newExpense,
+                                        amount: parseFloat(event.target.value)
+                                    })
                                 }
                             />
                         </div>
                         <div className="shadow-lg w-[200px]">
                             <InfoInput
-                                value={payee}
+                                value={newExpense.payee}
                                 type="text"
                                 label="Payee"
-                                onChange={event => setPayee(event.target.value)}
+                                onChange={event =>
+                                    setNewExpense({
+                                        ...newExpense,
+                                        payee: event.target.value
+                                    })
+                                }
                             />
                         </div>
                         <div className="shadow-lg w-[200px]">
                             <InfoInput
-                                value={referenceNumber}
+                                value={newExpense.referenceNumber}
                                 type="text"
                                 label="Reference Number"
                                 onChange={event =>
-                                    setReferenceNumber(event.target.value)
+                                    setNewExpense({
+                                        ...newExpense,
+                                        referenceNumber: event.target.value
+                                    })
                                 }
                             />
                         </div>
@@ -167,6 +197,7 @@ const Expenses = () => {
                         endpoint={
                             'https://backend-pagani-24fdde363504.herokuapp.com/api/expense/expenses'
                         }
+                        key={listKey}
                     />
                 </div>
             </div>

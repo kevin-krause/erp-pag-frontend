@@ -1,6 +1,6 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
-import Selector, { SingleSelect } from '../components/Selector'
+import Selector, { SingleSelectOS } from '../components/Selector'
 import DateInput from '../components/DateInput'
 import InfoInput from '../components/InfoInput'
 import ServiceList from '../components/ServicesList'
@@ -114,18 +114,19 @@ const Entrances = () => {
     }
 
     useEffect(() => {
-        try {
-            fetch(
-                `https://backend-pagani-24fdde363504.herokuapp.com/api/serviceOrder/orders/${id.id}`
-            )
-                .then(response => response.json())
-                .then(data => {
-                    setServiceOrder(data)
-                    setDataServices(data.services)
-                })
-        } catch (error) {
-            notify(error)
-        }
+        if (id)
+            try {
+                fetch(
+                    `https://backend-pagani-24fdde363504.herokuapp.com/api/serviceOrder/orders/${id.id}`
+                )
+                    .then(response => response.json())
+                    .then(data => {
+                        setServiceOrder(data)
+                        setDataServices(data.services)
+                    })
+            } catch (error) {
+                notify(error)
+            }
         setDocuments(documents_)
         setModel(model_)
     }, [id])
@@ -295,7 +296,7 @@ const Entrances = () => {
                     <span className="block border border-b-green-400 "></span>
                     <div className="p-6 grid grid-cols-3 gap-8 items-center">
                         <div className="col-span-2 ml-[-4px]">
-                            <SingleSelect
+                            <SingleSelectOS
                                 valueDefault={
                                     id.id !== undefined
                                         ? serviceOrder.paymentMethod

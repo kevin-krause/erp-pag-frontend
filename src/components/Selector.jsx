@@ -90,7 +90,7 @@ export function SingleSelect(props) {
                 <Select
                     labelId="demo-single-name-label"
                     id="demo-single-name"
-                    value={props.valueDefault || selectedValue} // Use selectedValue
+                    value={selectedValue}
                     onChange={handleChange}
                     input={<OutlinedInput label="Name" />}
                     MenuProps={MenuProps}
@@ -98,9 +98,42 @@ export function SingleSelect(props) {
                     {props.data.map(name => (
                         <MenuItem
                             key={name}
-                            value={props.valueDefault || 'name'}
+                            value={props.valueDefault || name}
                             style={getStyles(name, selectedValue, theme)}
                         >
+                            {name}
+                        </MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
+        </div>
+    )
+}
+
+export function SingleSelectOS(props) {
+    const [selectedValue, setSelectedValue] = React.useState('')
+
+    const handleChange = event => {
+        const newValue = event.target.value
+        setSelectedValue(newValue)
+        props.onValueChange(newValue)
+    }
+
+    return (
+        <div>
+            <FormControl sx={{ m: 1, width: 300 }}>
+                <InputLabel id="demo-single-name-label">
+                    <p>{props.title}</p>
+                </InputLabel>
+                <Select
+                    labelId="demo-single-name-label"
+                    id="demo-single-name"
+                    value={selectedValue || props.valueDefault}
+                    onChange={handleChange}
+                    input={<OutlinedInput label="Name" />}
+                >
+                    {props.data.map(name => (
+                        <MenuItem key={name} value={name}>
                             {name}
                         </MenuItem>
                     ))}
