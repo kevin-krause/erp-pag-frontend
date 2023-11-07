@@ -98,7 +98,7 @@ export function SingleSelect(props) {
                     {props.data.map(name => (
                         <MenuItem
                             key={name}
-                            value={props.valueDefault || name}
+                            value={props.valueDefault || selectedValue}
                             style={getStyles(name, selectedValue, theme)}
                         >
                             {name}
