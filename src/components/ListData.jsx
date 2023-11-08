@@ -1,9 +1,12 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import TableScrollbar from 'react-table-scrollbar'
 
 const ListData = props => {
     const [data, setData] = useState([])
+    const { height } = props
 
     useEffect(() => {
         const fetchData = async () => {
@@ -32,6 +35,7 @@ const ListData = props => {
             ))
         } else if (typeof data === 'object' && data !== null) {
             return props.visibleColumns.map((column, index) => (
+                // eslint-disable-next-line no-undef
                 <td key={index}>{renderData(item[column.name])}</td>
             ))
         } else {
@@ -50,41 +54,49 @@ const ListData = props => {
     const selectedStyle = styles[props.titleStyle] || defaultStyle
 
     return (
-        <div className="bg-zinc-100 rounded-lg p-6 w-full">
+        <div
+            className="bg-zinc-100 rounded-lg p-6 w-full"
+            style={{ height: height, overflow: 'clip' }}
+        >
             <h1 className={selectedStyle}>{props.title}</h1>
-            <table className="w-full">
-                <thead>
-                    <tr>
-                        {props.visibleColumns.map((column, index) => (
-                            <th key={index}>
-                                <p className="text-left font-normal  border-b border-b-slate-400 bg-slate-100  p-1 w-full">
-                                    {column.alias}
-                                </p>
-                            </th>
-                        ))}
-                    </tr>
-                </thead>
-                <tbody>
-                    {data.map((item, index) => (
-                        <tr
-                            key={index}
-                            className="hover:bg-slate-200 transition-colors cursor-pointer"
-                        >
+            <TableScrollbar>
+                <table className="w-full table-fixed scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-100 scrollbar-thumb-rounded">
+                    <thead>
+                        <tr>
                             {props.visibleColumns.map((column, index) => (
-                                <td key={index} className="text-sm text-left ">
-                                    <p className="truncate w-[70px] m-2">
-                                        <Link
-                                            to={`../${props.baseUrl}/${item._id}`}
-                                        >
-                                            {renderData(item[column.name])}
-                                        </Link>
+                                <th key={index}>
+                                    <p className="text-left font-normal border-b border-b-slate-400 bg-slate-100 p-1 w-full">
+                                        {column.alias}
                                     </p>
-                                </td>
+                                </th>
                             ))}
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {data.map((item, index) => (
+                            <tr
+                                key={index}
+                                className="hover:bg-slate-200 transition-colors cursor-pointer"
+                            >
+                                {props.visibleColumns.map((column, index) => (
+                                    <td
+                                        key={index}
+                                        className="text-sm text-left "
+                                    >
+                                        <p className="truncate w-[70px] m-2">
+                                            <Link
+                                                to={`../${props.baseUrl}/${item._id}`}
+                                            >
+                                                {renderData(item[column.name])}
+                                            </Link>
+                                        </p>
+                                    </td>
+                                ))}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </TableScrollbar>
         </div>
     )
 }

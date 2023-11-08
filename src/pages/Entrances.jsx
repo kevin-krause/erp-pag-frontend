@@ -76,7 +76,7 @@ const Entrances = () => {
 
         const updatedServiceOrder = {
             ...serviceOrder,
-            _id: id_.id, // Include the _id in the object
+            _id: id_.id,
             services: osServices,
             amount: amountFloat
         }
@@ -114,7 +114,7 @@ const Entrances = () => {
     }
 
     useEffect(() => {
-        if (id)
+        if (id.id)
             try {
                 fetch(
                     `https://backend-pagani-24fdde363504.herokuapp.com/api/serviceOrder/orders/${id.id}`
@@ -129,7 +129,7 @@ const Entrances = () => {
             }
         setDocuments(documents_)
         setModel(model_)
-    }, [id])
+    }, [id.id])
 
     return (
         <div>
@@ -181,9 +181,11 @@ const Entrances = () => {
                     </span> */}
                 </div>
             </div>
-            <div className="flex px-6 py-4 mt-2 gap-x-8 justify-between border-t border-green-400 bg-zinc-100 bg-gradient-to-tl">
+            <div className="flex px-6 py-4 mt-2 gap-x-8 justify-between border-t  bg-zinc-100 bg-gradient-to-tl">
                 <div className="bg-zinc-100 shadow-md border-zinc-400 rounded-lg w-full">
-                    <h1 className="p-6 font-bold mb-[-35px]">Notas</h1>
+                    <h1 className="bg-zinc-900 border text-white border-zinc-900 px-3 py-1 rounded-lg shadow-md w-fit mx-6 mb-0 mt-3">
+                        Notas
+                    </h1>
                     <div className="p-6 grid grid-cols-2 gap-8">
                         <InfoInput
                             id="car"
@@ -293,7 +295,7 @@ const Entrances = () => {
                             }
                         />
                     </div>
-                    <span className="block border border-b-green-400 "></span>
+                    <span className="block border border-b-zinc-300 opacity-40"></span>
                     <div className="p-6 grid grid-cols-3 gap-8 items-center">
                         <div className="col-span-2 ml-[-4px]">
                             <SingleSelectOS
@@ -318,16 +320,18 @@ const Entrances = () => {
                     </div>
                     <div className=" px-6 grid grid-cols-1 gap-8 items-center">
                         <button
-                            className="px-4 py-2 bg-green-500 text-white h-fit hover:bg-green-200 hover:text-green-800 transition-colors rounded-md"
+                            className="bg-zinc-700 border text-white border-zinc-700 px-3 py-1 rounded-lg shadow-md mb-4 w-fit transition-colors hover:bg-blue-600 hover:shadow-lg hover:shadow-sky-200  hover:border-opacity-0 p-3"
                             onClick={() => createOS(serviceOrder.services, id)}
                         >
-                            {id.id === undefined ? 'Create OS' : 'Save OS'}
+                            {id.id === undefined ? 'Criar OS' : 'Save OS'}
                         </button>
                         <ToastContainer />
                     </div>
                 </div>
                 <div className="bg-zinc-100 shadow-md border-zinc-400 rounded-lg w-full">
-                    <h1 className="p-6 font-bold mb-[-35px]">Serviços</h1>
+                    <h1 className="bg-zinc-900 border text-white border-zinc-900 px-3 py-1 rounded-lg shadow-md w-fit  mx-6 mb-0 mt-3">
+                        Serviços
+                    </h1>
                     <div className="p-6 flex gap-8">
                         <ServiceList
                             onFormSubmit={handleFormSubmit}

@@ -65,7 +65,7 @@ const Expenses = () => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(newExpense)
+            body: JSON.stringify({ ...newExpense, _id: id })
         })
             .then(response => {
                 if (!response.ok) {
@@ -73,12 +73,18 @@ const Expenses = () => {
                         throw new Error(data.message.message)
                     })
                 }
+
                 return response.json()
             })
-            .then(() => {
+            .then(data => {
                 notify('✅', id ? 'Expense Updated' : 'Expense Created')
                 setListKey(Math.random())
-                navigate(`/expenses/${id}`)
+                console.log(data)
+                if (id) {
+                    navigate(`/expenses/${id}`)
+                } else {
+                    navigate(`/expenses/${data.newExpenseId}`)
+                }
             })
             .catch(error => {
                 notify('❌', error)
@@ -108,7 +114,7 @@ const Expenses = () => {
                                 }
                             >
                                 <option value="" disabled>
-                                    Select Expense Type
+                                    Expense Type
                                 </option>
                                 {expenseTypes.map(type => (
                                     <option key={type} value={type}>
@@ -235,12 +241,12 @@ const Expenses = () => {
                         key={listKey}
                         visibleColumns={[
                             { name: 'description', alias: 'Dono' },
-                            { name: '', alias: 'Carro' },
-                            { name: 'payee', alias: 'Total' },
-                            { name: 'amount', alias: 'Abertura' },
-                            { name: 'createdAt', alias: 'Fechamento' },
-                            { name: 'updatedAt', alias: 'Contato' }
+                            { name: 'payee', alias: 'Pagador' },
+                            { name: 'amount', alias: 'Valor' },
+                            { name: 'createdAt', alias: 'Abertura' },
+                            { name: 'updatedAt', alias: 'Atualização' }
                         ]}
+                        height={'400px'}
                     />
                 </div>
             </div>

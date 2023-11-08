@@ -72,7 +72,7 @@ const ServiceList = ({ onFormSubmit, data }) => {
                 </div>
             </form>
             <button
-                className="px-2 py-1 mt-4 bg-sky-200 text-sky-500 rounded-lg hover:bg-sky-400 hover:text-sky-100 transition-colors"
+                className="bg-zinc-700 border text-white border-zinc-700 px-3 py-1 rounded-lg shadow-md mt-4 w-fit transition-colors hover:bg-blue-600 hover:shadow-lg hover:shadow-sky-200  hover:border-opacity-0 p-3"
                 onClick={addService}
             >
                 Adicionar

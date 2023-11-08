@@ -68,7 +68,7 @@ const SignIn = () => {
                 />
                 <button
                     disabled={loading}
-                    className="bg-green-600 transition-colors text-slate-100 p-3 rounded-lg hover:bg-green-500 disabled:opacity-80"
+                    className="bg-zinc-900 border text-white border-zinc-900 rounded-lg shadow-md w-full transition-colors hover:bg-blue-600 hover:shadow-lg hover:shadow-sky-200  hover:border-opacity-0 p-3"
                 >
                     {loading ? 'Loading... 😴' : 'Sign in ✨'}
                 </button>
