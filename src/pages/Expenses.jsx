@@ -8,6 +8,8 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import ListData from '../components/ListData'
 import { useParams, useNavigate, Link } from 'react-router-dom'
+import Chart from '../components/Chart'
+import { HomeExpensesChartOptions } from '../functions/chartsSettings'
 
 const expenseTypes = ['Boletos', 'Pagamentos', 'Pix']
 
@@ -15,6 +17,7 @@ const Expenses = () => {
     const { id } = useParams()
     const [listKey, setListKey] = useState(Math.random())
     const navigate = useNavigate()
+    const [apiData, setApiData] = useState([]) // State to store API data
     const [newExpense, setNewExpense] = useState({
         expenseType: '',
         description: '',
@@ -27,6 +30,21 @@ const Expenses = () => {
     const notify = (e, title) => (title ? toast(`${title}: ${e}`) : toast(e))
 
     useEffect(() => {
+        try {
+            fetch(
+                'https://backend-pagani-24fdde363504.herokuapp.com/api/expense/expenses'
+            )
+                .then(response => response.json())
+                .then(data => {
+                    const formattedData = data.map(item => ({
+                        x: item._id,
+                        y: item.amount
+                    }))
+                    setApiData(formattedData)
+                })
+        } catch (error) {
+            notify(error)
+        }
         if (id)
             try {
                 fetch(
@@ -94,11 +112,11 @@ const Expenses = () => {
 
     return (
         <div className="grid grid-cols-2 mt-3">
-            <div className="col-span-1 mx-6">
+            <div className="col-span-1 mx-6 ">
                 <h1 className="bg-zinc-900 border text-white border-zinc-900 px-3 py-1 rounded-lg shadow-md mb-4 w-fit transition-colors hover:bg-blue-600 hover:shadow-blue-200 hover:border-opacity-0 ">
                     <Link to={'/expenses'}> crie uma nova despesa 💰</Link>
                 </h1>
-                <div className="shadow-lg  mt-[0px] pb-4 rounded-b-lg bg-zinc-100">
+                <div className="shadow-lg  mt-[0px] pb-4 rounded-b-lg bg-zinc-100 h-[400px]">
                     <div className="grid grid-cols-2 gap-x-12 p-6 mx-6 mb-[-24px] rounded-b-lg">
                         <div className="rounded-lg shadow-lg">
                             <select
@@ -248,6 +266,24 @@ const Expenses = () => {
                         ]}
                         height={'400px'}
                     />
+                </div>
+            </div>
+            <div className="col-span-1 p-6">
+                <div className="w-full shadow-lg rounded-lg bg-zinc-100 p-3">
+                    <Chart
+                        chartData={apiData}
+                        chartOptions={HomeExpensesChartOptions}
+                    />
+                    <ToastContainer />
+                </div>
+            </div>
+            <div className="col-span-1 p-6">
+                <div className="w-full shadow-lg rounded-lg bg-zinc-100 p-3">
+                    <Chart
+                        chartData={apiData}
+                        chartOptions={HomeExpensesChartOptions}
+                    />
+                    <ToastContainer />
                 </div>
             </div>
         </div>

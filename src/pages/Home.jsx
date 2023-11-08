@@ -4,14 +4,17 @@ import { useSelector } from 'react-redux'
 import ListData from '../components/ListData'
 import Chart from '../components/Chart'
 import { ToastContainer, toast } from 'react-toastify'
-import { HomeExpensesChartOptions } from '../functions/chartsSettings'
+import {
+    HomeExpensesChartOptions,
+    HomeOSChartOptions
+} from '../functions/chartsSettings'
 
 const Home = () => {
     const navigate = useNavigate()
     const user = useSelector(state => state.user)
     const notify = (e, title) => (title ? toast(`${title}: ${e}`) : toast(e))
-    const [apiData, setApiData] = useState([]) // State to store API data
-
+    const [apiDataExpenses, setApiDataExpenses] = useState([]) // State to store API data
+    const [apiDataOS, setApiDataOS] = useState([])
     useEffect(() => {
         if (user.currentUser._id === null) {
             navigate('/sign-in')
@@ -26,7 +29,22 @@ const Home = () => {
                             x: item.createdAt, // Assuming createdAt is a date field
                             y: item.amount
                         }))
-                        setApiData(formattedData)
+                        setApiDataExpenses(formattedData)
+                    })
+            } catch (error) {
+                notify(error)
+            }
+            try {
+                fetch(
+                    'https://backend-pagani-24fdde363504.herokuapp.com/api/serviceOrder/orders'
+                )
+                    .then(response => response.json())
+                    .then(data => {
+                        const formattedData = data.map(item => ({
+                            x: item.createdAt, // Assuming createdAt is a date field
+                            y: item.amount
+                        }))
+                        setApiDataOS(formattedData)
                     })
             } catch (error) {
                 notify(error)
@@ -42,7 +60,7 @@ const Home = () => {
                     </h1>
                     <div className="w-full shadow-lg rounded-lg">
                         <Chart
-                            chartData={apiData}
+                            chartData={apiDataExpenses}
                             chartOptions={HomeExpensesChartOptions}
                         />
                         <ToastContainer />
@@ -79,7 +97,7 @@ const Home = () => {
                         <ListData
                             title={'Ordens de serviço'}
                             baseUrl={'entrances'}
-                            height={'400px'}
+                            height={'500px'}
                             endpoint={
                                 'https://backend-pagani-24fdde363504.herokuapp.com/api/serviceOrder/orders'
                             }
@@ -93,10 +111,10 @@ const Home = () => {
                             ]}
                         />
                     </div>
-                    <div className="w-full shadow-lg rounded-lg bg-zinc-100">
+                    <div className="w-full shadow-lg rounded-lg bg-zinc-100 p-3">
                         <Chart
-                            chartData={apiData}
-                            chartOptions={HomeExpensesChartOptions}
+                            chartData={apiDataOS}
+                            chartOptions={HomeOSChartOptions}
                         />
                         <ToastContainer />
                     </div>

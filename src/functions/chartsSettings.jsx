@@ -33,10 +33,10 @@ export const HomeExpensesChartOptions = {
             opacity: 0.5 // Opacity of alternate rows
         }
     },
-    colors: ['#4D9DE0', '#33FF57'], // Custom colors for data series
+    colors: ['#E15554', '#E15554'], // Custom colors for data series
     markers: {
         size: 6, // Size of data point markers
-        colors: ['#4D9DE0', '#E1BC29'], // Marker colors
+        colors: ['#E15554', '#E15554'], // Marker colors
         strokeWidth: 0, // Marker border width
         hover: {
             size: 9 // Marker size on hover
@@ -57,6 +57,7 @@ export const HomeExpensesChartOptions = {
 export const HomeOSChartOptions = {
     chart: {
         type: 'area', // The type of chart, e.g., 'line', 'bar', 'scatter', 'spline', etc.
+        height: 500, // The height of the chart
         fontFamily: 'Roboto, sans-serif' // Font family for text in the chart
     },
     xaxis: {
@@ -70,10 +71,10 @@ export const HomeOSChartOptions = {
         }
     },
     title: {
-        text: 'Despesas X Tempo' // The title of the chart
+        text: 'Ordens de Serviço X Tempo' // The title of the chart
     },
     subtitle: {
-        text: 'Acompanhe o desenvolvimento completo pelo dashboard de Despesas' // Subtitle of the chart
+        text: 'Acompanhe o desenvolvimento completo pelo dashboard de Entradas' // Subtitle of the chart
     },
     legend: {
         show: true, // Show or hide the legend
@@ -88,10 +89,10 @@ export const HomeOSChartOptions = {
             opacity: 0.5 // Opacity of alternate rows
         }
     },
-    colors: ['#4D9DE0', '#33FF57'], // Custom colors for data series
+    colors: ['#3BB273', '#3BB273'], // Custom colors for data series
     markers: {
         size: 6, // Size of data point markers
-        colors: ['#4D9DE0', '#E1BC29'], // Marker colors
+        colors: ['#3BB273', '#3BB273'], // Marker colors
         strokeWidth: 0, // Marker border width
         hover: {
             size: 9 // Marker size on hover
