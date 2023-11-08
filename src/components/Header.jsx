@@ -8,12 +8,10 @@ const Header = () => {
             <div className="flex justify-between items-center max-w-6x mx-auto px-8 py-3">
                 <Link to={'/home'}>
                     <h1 className="font-bold text-sm sm:text-xl flex flex-wrap">
-                        <span className="text-green-500 font-semibold">
-                            Bloc
+                        <span className="text-green-500 font-normal">
+                            Quantum
                         </span>
-                        <span className="text-green-900 font-semibold">
-                            .Note
-                        </span>
+                        <span className="text-green-900 font-bold">.Auto</span>
                     </h1>
                 </Link>
                 <form className="bg-zinc-100 border border-zinc-300 p-3 rounded-lg flex items-center">

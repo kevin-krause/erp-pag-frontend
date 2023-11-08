@@ -1,33 +1,60 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import ListData from '../components/ListData'
+import Chart from '../components/Chart'
+import { ToastContainer, toast } from 'react-toastify'
 
 const Home = () => {
     const navigate = useNavigate()
     const user = useSelector(state => state.user)
+    const notify = (e, title) => (title ? toast(`${title}: ${e}`) : toast(e))
+    const [apiData, setApiData] = useState([]) // State to store API data
+
+    const mainChartOptions = {
+        chart: {
+            type: 'area',
+            height: 420,
+            fontFamily: 'Inter, sans-serif'
+            // ... other options
+        }
+        // ... other options
+    }
 
     useEffect(() => {
         if (user.currentUser._id === null) {
             navigate('/sign-in')
+        } else {
+            try {
+                fetch(
+                    'https://backend-pagani-24fdde363504.herokuapp.com/api/expense/expenses'
+                )
+                    .then(response => response.json())
+                    .then(data => {
+                        const formattedData = data.map(item => ({
+                            x: new Date(item.createdAt).getTime(), // Assuming createdAt is a date field
+                            y: item.amount
+                        }))
+                        setApiData(formattedData)
+                    })
+            } catch (error) {
+                notify(error)
+            }
         }
     })
     return (
         <div className="p-6 m-3 grid grid-cols-3">
             <div className="col-span-2">
-                <div className="px-6 py-2">
+                <div className="px-6 py-2 my-[-8px] mb-2">
                     <h1 className="bg-zinc-900 border text-white border-zinc-900 px-3 py-1 rounded-lg shadow-md mb-4 w-fit">
                         Despesas 🛠️
                     </h1>
-                    <div className="max-w-fit shadow-lg rounded-lg ">
-                        <ListData
-                            titleStyle={'yellow'}
-                            title={'Despesas'}
-                            baseUrl={'expenses'}
-                            endpoint={
-                                'https://backend-pagani-24fdde363504.herokuapp.com/api/expense/expenses'
-                            }
+                    <div className="w-full shadow-lg rounded-lg">
+                        <Chart
+                            chartData={apiData}
+                            chartOptions={mainChartOptions}
                         />
+                        <ToastContainer />
                     </div>
                 </div>
             </div>
@@ -90,13 +117,21 @@ const Home = () => {
                 <h1 className="bg-zinc-900 border text-white border-zinc-900 px-3 py-1 mb-4 rounded-lg shadow-md w-fit">
                     Entradas 💸
                 </h1>
-                <div className="shadow-lg rounded-lg w-auto">
+                <div className="shadow-lg rounded-lg w-fit">
                     <ListData
                         title={'Ordens de serviço'}
                         baseUrl={'entrances'}
                         endpoint={
                             'https://backend-pagani-24fdde363504.herokuapp.com/api/serviceOrder/orders'
                         }
+                        visibleColumns={[
+                            { name: 'carOwner', alias: 'Dono' },
+                            { name: 'car', alias: 'Carro' },
+                            { name: 'amount', alias: 'Total' },
+                            { name: 'createdAt', alias: 'Abertura' },
+                            { name: 'updatedAt', alias: 'Fechamento' },
+                            { name: 'contact', alias: 'Contato' }
+                        ]}
                     />
                 </div>
             </div>

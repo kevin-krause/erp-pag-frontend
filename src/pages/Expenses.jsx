@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
 import { SingleSelect } from '../components/Selector'
 import DateInput from '../components/DateInput'
@@ -6,14 +7,14 @@ import formatCurrencyBRL from '../functions/formatCurrencyBRL'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import ListData from '../components/ListData'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate, Link } from 'react-router-dom'
 
 const expenseTypes = ['Boletos', 'Pagamentos', 'Pix']
 
 const Expenses = () => {
     const { id } = useParams()
     const [listKey, setListKey] = useState(Math.random())
-
+    const navigate = useNavigate()
     const [newExpense, setNewExpense] = useState({
         expenseType: '',
         description: '',
@@ -77,6 +78,7 @@ const Expenses = () => {
             .then(() => {
                 notify('✅', id ? 'Expense Updated' : 'Expense Created')
                 setListKey(Math.random())
+                navigate(`/expenses/${id}`)
             })
             .catch(error => {
                 notify('❌', error)
@@ -86,29 +88,43 @@ const Expenses = () => {
 
     return (
         <div className="grid grid-cols-2 mt-3">
-            <div className="col-span-2 shadow-lg mx-6 mt-[0px] pb-4 rounded-b-lg">
-                <div className="">
-                    <div className="flex justify-between bg-zinc-200 p-6 mx-6 rounded-b-lg">
-                        <div className="mx-[-8px] bg-zinc-100 rounded-lg shadow-lg">
-                            <SingleSelect
-                                valueDefault={
-                                    id.id !== undefined
-                                        ? newExpense.expenseType
-                                        : ''
-                                }
-                                title={'Expense Type'}
-                                data={expenseTypes}
-                                onValueChange={selectedValue => {
+            <div className="col-span-1 mx-6">
+                <h1 className="bg-zinc-900 border text-white border-zinc-900 px-3 py-1 rounded-lg shadow-md mb-4 w-fit transition-colors hover:bg-blue-600 hover:shadow-blue-200 hover:border-opacity-0 ">
+                    <Link to={'/expenses'}> crie uma nova despesa 💰</Link>
+                </h1>
+                <div className="shadow-lg  mt-[0px] pb-4 rounded-b-lg bg-zinc-100">
+                    <div className="grid grid-cols-2 gap-x-12 p-6 mx-6 mb-[-24px] rounded-b-lg">
+                        <div className="rounded-lg shadow-lg">
+                            <select
+                                id="expense-type-select"
+                                name="expenseType"
+                                className="bg-gray-50 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 "
+                                value={newExpense.expenseType}
+                                onChange={event =>
                                     setNewExpense({
                                         ...newExpense,
-                                        expenseType: selectedValue
+                                        expenseType: event.target.value
                                     })
-                                }}
-                            />
+                                }
+                            >
+                                <option value="" disabled>
+                                    Select Expense Type
+                                </option>
+                                {expenseTypes.map(type => (
+                                    <option key={type} value={type}>
+                                        {type}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
-                        <div className="px-[8px] mx-[-8px] bg-zinc-100 rounded-lg shadow-lg">
-                            <DateInput
-                                label="Date"
+
+                        <div className="px-[8px] mx-[-8px]">
+                            <input
+                                type="date"
+                                id="date-input"
+                                name="date"
+                                className="shadow-lg bg-gray-50 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 "
+                                placeholder="Date"
                                 value={newExpense.date}
                                 onChange={event =>
                                     setNewExpense({
@@ -119,12 +135,15 @@ const Expenses = () => {
                             />
                         </div>
                     </div>
-                    <div className="px-[18px] grid grid-cols-2 gap-x-[116px] gap-y-4 p-6 mx-6 mt-[-4px]">
-                        <div className="shadow-lg w-[200px]">
-                            <InfoInput
-                                value={newExpense.description}
+                    <div className="grid grid-cols-2 gap-x-12 gap-y-4 p-6 mx-6 mt-[-4px]">
+                        <div className="shadow-lg rounded-lg">
+                            <input
                                 type="text"
-                                label="Description"
+                                name="description"
+                                id="description-input"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 "
+                                placeholder="Description"
+                                value={newExpense.description}
                                 onChange={event =>
                                     setNewExpense({
                                         ...newExpense,
@@ -133,11 +152,15 @@ const Expenses = () => {
                                 }
                             />
                         </div>
-                        <div className="shadow-lg w-[200px]">
-                            <InfoInput
-                                value={newExpense.amount}
+
+                        <div className="shadow-lg rounded-lg">
+                            <input
                                 type="number"
-                                label="Amount"
+                                name="amount"
+                                id="amount-input"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 "
+                                placeholder="Amount"
+                                value={newExpense.amount}
                                 onChange={event =>
                                     setNewExpense({
                                         ...newExpense,
@@ -146,11 +169,15 @@ const Expenses = () => {
                                 }
                             />
                         </div>
-                        <div className="shadow-lg w-[200px]">
-                            <InfoInput
-                                value={newExpense.payee}
+
+                        <div className="shadow-lg rounded-lg">
+                            <input
                                 type="text"
-                                label="Payee"
+                                name="payee"
+                                id="payee-input"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 "
+                                placeholder="Payee"
+                                value={newExpense.payee}
                                 onChange={event =>
                                     setNewExpense({
                                         ...newExpense,
@@ -159,11 +186,15 @@ const Expenses = () => {
                                 }
                             />
                         </div>
-                        <div className="shadow-lg w-[200px]">
-                            <InfoInput
-                                value={newExpense.referenceNumber}
+
+                        <div className="shadow-lg rounded-lg">
+                            <input
                                 type="text"
-                                label="Reference Number"
+                                name="referenceNumber"
+                                id="referenceNumber-input"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 "
+                                placeholder="Reference Number"
+                                value={newExpense.referenceNumber}
                                 onChange={event =>
                                     setNewExpense({
                                         ...newExpense,
@@ -174,13 +205,13 @@ const Expenses = () => {
                         </div>
                         <div className=" mt-4 flex gap-4">
                             <button
-                                className="px-4 py-2 bg-green-500 text-white h-fit hover:bg-green-200 hover:text-green-800 transition-colors rounded-md"
+                                className="bg-zinc-900 border text-white border-zinc-900 px-2 py-1 rounded-lg shadow-md w-fit h-[32px] transition-colors hover:bg-blue-600 hover:shadow-blue-200 hover:border-opacity-0 "
                                 onClick={handleFormSubmit}
                             >
                                 {id ? 'Save' : 'Create'}
                             </button>
-                            <button className="px-4 py-2 bg-orange-500 text-white h-fit hover:bg-orange-200 hover:text-orange-800 transition-colors rounded-md">
-                                Read XML
+                            <button className="bg-orange-500 border text-white border-orange-500 px-2 py-1 rounded-lg shadow-md w-fit h-[32px] transition-colors hover:bg-blue-600 hover:shadow-blue-200 hover:border-opacity-0 ">
+                                xml
                             </button>
 
                             <ToastContainer />
@@ -189,15 +220,27 @@ const Expenses = () => {
                 </div>
             </div>
 
-            <div className="px-6 mt-4 col-span-full">
-                <div className=" shadow-md rounded-lg w-full">
+            <div className="px-6 col-span-1 ">
+                <h1 className=" border-2 border-dashed text-black border-blue-500 px-3 py-1 rounded-lg mb-4 w-fit">
+                    descubra mais sobre suas despesas 📄
+                </h1>
+                <div className="flex shadow-md rounded-lg w-full">
                     <ListData
+                        titleStyle={'red'}
                         title={'Despesas'}
                         baseUrl={'expenses'}
                         endpoint={
                             'https://backend-pagani-24fdde363504.herokuapp.com/api/expense/expenses'
                         }
                         key={listKey}
+                        visibleColumns={[
+                            { name: 'description', alias: 'Dono' },
+                            { name: '', alias: 'Carro' },
+                            { name: 'payee', alias: 'Total' },
+                            { name: 'amount', alias: 'Abertura' },
+                            { name: 'createdAt', alias: 'Fechamento' },
+                            { name: 'updatedAt', alias: 'Contato' }
+                        ]}
                     />
                 </div>
             </div>

@@ -49,7 +49,7 @@ const SignIn = () => {
         }
     }
     return (
-        <div className="p-6 max-w-lg mx-auto">
+        <div className="px-6 mt-4 max-w-lg mx-auto">
             <h1 className="text-3xl text-center font-semibold my-7">Sign In</h1>
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <input
@@ -68,14 +68,14 @@ const SignIn = () => {
                 />
                 <button
                     disabled={loading}
-                    className="bg-slate-700 text-slate-100 p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
+                    className="bg-green-600 transition-colors text-slate-100 p-3 rounded-lg hover:bg-green-500 disabled:opacity-80"
                 >
                     {loading ? 'Loading... 😴' : 'Sign in ✨'}
                 </button>
                 <OAuth />
             </form>
             <div className="flex gap-2 mt-5">
-                <p>Dont have an account?</p>
+                <p className="text-zinc-400">Dont have an account?</p>
                 <Link to={'/sign-up'}>
                     <span className="text-blue-900 hover:underline">
                         Sign up
@@ -83,7 +83,7 @@ const SignIn = () => {
                 </Link>
             </div>
             {error && (
-                <p className="text-red-500 mt-5 p-6 bg-red-100 border border-red-300 rounded-lg">
+                <p className="text-red-500 mt-5 p-6 bg-red-100 border border-red-300 rounded-lg ">
                     {error}
                 </p>
             )}
