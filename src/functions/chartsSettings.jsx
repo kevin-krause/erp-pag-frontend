@@ -1,7 +1,7 @@
 export const HomeExpensesChartOptions = {
     chart: {
         type: 'area', // The type of chart, e.g., 'line', 'bar', 'scatter', 'spline', etc.
-        height: 400, // The height of the chart
+        height: 500, // The height of the chart
         fontFamily: 'Roboto, sans-serif' // Font family for text in the chart
     },
     xaxis: {

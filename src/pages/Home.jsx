@@ -52,8 +52,8 @@ const Home = () => {
         }
     }, [user.currentUser._id, navigate])
     return (
-        <div className="p-6 m-3 grid grid-cols-3">
-            <div className="col-span-2">
+        <div className="p-6 m-3 grid grid-cols-2">
+            {/* <div className="col-span-2">
                 <div className="px-6 py-2 my-[-8px] mb-2">
                     <h1 className="bg-zinc-900 border text-white border-zinc-900 px-3 py-1 rounded-lg shadow-md mb-4 w-fit transition-colors hover:bg-blue-600 hover:shadow-lg hover:shadow-sky-200  hover:border-opacity-0 p-3">
                         <Link to={'/expenses'}>Despesas 🛠️</Link>
@@ -117,6 +117,74 @@ const Home = () => {
                             chartOptions={HomeOSChartOptions}
                         />
                         <ToastContainer />
+                    </div>
+                </div>
+            </div> */}
+            <div className="p-6 col-span-2 w-full bg-zinc-200 border-t border-zinc-600">
+                <div className="flex gap-3">
+                    <h1 className="bg-zinc-900 border text-white border-zinc-900 px-3 py-1 rounded-lg shadow-md mb-4 w-fit transition-colors hover:bg-blue-600 hover:shadow-lg hover:shadow-sky-200  hover:border-opacity-0 p-3">
+                        <Link to={'/entrances'}>Entradas 💸</Link>
+                    </h1>
+                    <h1 className="bg-zinc-900 border text-white border-zinc-900 px-3 py-1 rounded-lg shadow-md mb-4 w-fit transition-colors hover:bg-blue-600 hover:shadow-lg hover:shadow-sky-200  hover:border-opacity-0 p-3">
+                        <Link to={'/expenses'}>Despesas 🛠️</Link>
+                    </h1>
+                </div>
+                <div className="flex gap-8">
+                    <div className="shadow-lg rounded-lg w-fit h-fit">
+                        <ListData
+                            title={'Ordens de serviço'}
+                            baseUrl={'entrances'}
+                            height={'500px'}
+                            endpoint={
+                                'https://backend-pagani-24fdde363504.herokuapp.com/api/serviceOrder/orders'
+                            }
+                            visibleColumns={[
+                                { name: 'carOwner', alias: 'Dono' },
+                                { name: 'car', alias: 'Carro' },
+                                { name: 'amount', alias: 'Total' },
+                                { name: 'createdAt', alias: 'Abertura' },
+                                { name: 'updatedAt', alias: 'Atualizado' },
+                                { name: 'contact', alias: 'Contato' }
+                            ]}
+                        />
+                    </div>
+                    <div className="w-full shadow-lg rounded-lg bg-zinc-100 p-3">
+                        <Chart
+                            chartData={apiDataOS}
+                            chartOptions={HomeOSChartOptions}
+                        />
+                        <ToastContainer />
+                    </div>
+                </div>
+            </div>
+            <div className="p-6 col-span-3 w-full bg-zinc-200 border-t border-zinc-600">
+                <div className="flex gap-8">
+                    <div className="shadow-lg rounded-lg w-fit h-fit">
+                        <ListData
+                            titleStyle={'red'}
+                            title={'Despesas'}
+                            baseUrl={'expenses'}
+                            endpoint={
+                                'https://backend-pagani-24fdde363504.herokuapp.com/api/expense/expenses'
+                            }
+                            visibleColumns={[
+                                { name: 'description', alias: 'Dono' },
+                                { name: 'payee', alias: 'Pagador' },
+                                { name: 'amount', alias: 'Valor' },
+                                { name: 'createdAt', alias: 'Abertura' },
+                                { name: 'updatedAt', alias: 'Atualização' }
+                            ]}
+                            height={'400px'}
+                        />
+                    </div>
+                    <div className="px-6 py-2 my-[-8px] mb-2">
+                        <div className="w-full shadow-lg rounded-lg bg-zinc-100 p-3">
+                            <Chart
+                                chartData={apiDataExpenses}
+                                chartOptions={HomeExpensesChartOptions}
+                            />
+                            <ToastContainer />
+                        </div>
                     </div>
                 </div>
             </div>
