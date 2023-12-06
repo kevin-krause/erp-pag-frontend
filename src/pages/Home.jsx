@@ -125,7 +125,7 @@ const Home = () => {
                     <h1 className="bg-zinc-900 border text-white border-zinc-900 px-3 py-1 rounded-lg shadow-md mb-4 w-fit transition-colors hover:bg-blue-600 hover:shadow-lg hover:shadow-sky-200  hover:border-opacity-0 p-3">
                         <Link to={'/entrances'}>Entradas 💸</Link>
                     </h1>
-                    <h1 className="bg-zinc-900 border text-white border-zinc-900 px-3 py-1 rounded-lg shadow-md mb-4 w-fit transition-colors hover:bg-blue-600 hover:shadow-lg hover:shadow-sky-200  hover:border-opacity-0 p-3">
+                    <h1 className="bg-zinc-900 border text-white border-zinc-900 px-3 py-1 rounded-lg shadow-md mb-4 w-fit transition-colors hover:bg-red-600 hover:shadow-lg hover:shadow-red-200  hover:border-opacity-0 p-3">
                         <Link to={'/expenses'}>Despesas 🛠️</Link>
                     </h1>
                 </div>
@@ -157,9 +157,11 @@ const Home = () => {
                     </div>
                 </div>
             </div>
-            <div className="p-6 col-span-3 w-full bg-zinc-200 border-t border-zinc-600">
-                <div className="flex gap-8">
-                    <div className="shadow-lg rounded-lg w-fit h-fit">
+            <div className="p-6 w-full col-span-2 bg-zinc-200 border-t border-red-600">
+                <div className="flex gap-8 w-full">
+                    <div className="shadow-lg rounded-lg w-1/2 h-fit">
+                        {' '}
+                        {/* Set width to 1/2 */}
                         <ListData
                             titleStyle={'red'}
                             title={'Despesas'}
@@ -177,14 +179,13 @@ const Home = () => {
                             height={'400px'}
                         />
                     </div>
-                    <div className="px-6 py-2 my-[-8px] mb-2">
-                        <div className="w-full shadow-lg rounded-lg bg-zinc-100 p-3">
-                            <Chart
-                                chartData={apiDataExpenses}
-                                chartOptions={HomeExpensesChartOptions}
-                            />
-                            <ToastContainer />
-                        </div>
+
+                    <div className="shadow-lg rounded-lg bg-zinc-100 p-3 first-letter w-1/2 ">
+                        <Chart
+                            chartData={apiDataExpenses}
+                            chartOptions={HomeExpensesChartOptions}
+                        />
+                        <ToastContainer />
                     </div>
                 </div>
             </div>

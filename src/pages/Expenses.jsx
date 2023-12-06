@@ -268,15 +268,8 @@ const Expenses = () => {
                     />
                 </div>
             </div>
-            <div className="col-span-1 p-6">
-                <div className="w-full shadow-lg rounded-lg bg-zinc-100 p-3">
-                    <Chart
-                        chartData={apiData}
-                        chartOptions={HomeExpensesChartOptions}
-                    />
-                    <ToastContainer />
-                </div>
-            </div>
+            <div className="col-span-1 p-6">o que podemos botar aqui?</div>
+
             <div className="col-span-1 p-6">
                 <div className="w-full shadow-lg rounded-lg bg-zinc-100 p-3">
                     <Chart
