@@ -232,7 +232,7 @@ const Expenses = () => {
                                 className="bg-zinc-900 border text-white border-zinc-900 px-2 py-1 rounded-lg shadow-md w-fit h-[32px] transition-colors hover:bg-blue-600 hover:shadow-blue-200 hover:border-opacity-0 "
                                 onClick={handleFormSubmit}
                             >
-                                {id ? 'Save' : 'Create'}
+                                {id ? 'salvar' : 'criar'}
                             </button>
                             <button className="bg-orange-500 border text-white border-orange-500 px-2 py-1 rounded-lg shadow-md w-fit h-[32px] transition-colors hover:bg-blue-600 hover:shadow-blue-200 hover:border-opacity-0 ">
                                 xml
