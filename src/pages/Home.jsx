@@ -128,6 +128,9 @@ const Home = () => {
                     <h1 className="bg-zinc-900 border text-white border-zinc-900 px-3 py-1 rounded-lg shadow-md mb-4 w-fit transition-colors hover:bg-red-600 hover:shadow-lg hover:shadow-red-200  hover:border-opacity-0 p-3">
                         <Link to={'/expenses'}>Despesas 🛠️</Link>
                     </h1>
+                    <h1 className="bg-zinc-900 border text-white border-zinc-900 px-3 py-1 rounded-lg shadow-md mb-4 w-fit transition-colors hover:bg-green-600 hover:shadow-lg hover:shadow-green-200  hover:border-opacity-0 p-3">
+                        <Link to={'/registers'}>Cadastros 📄</Link>
+                    </h1>
                 </div>
                 <div className="flex gap-8">
                     <div className="shadow-lg rounded-lg w-fit h-fit">
@@ -160,8 +163,6 @@ const Home = () => {
             <div className="p-6 w-full col-span-2 bg-zinc-200 border-t border-red-600">
                 <div className="flex gap-8 w-full">
                     <div className="shadow-lg rounded-lg w-1/2 h-fit">
-                        {' '}
-                        {/* Set width to 1/2 */}
                         <ListData
                             titleStyle={'red'}
                             title={'Despesas'}

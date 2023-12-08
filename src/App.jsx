@@ -8,6 +8,7 @@ import About from './pages/About'
 import Profile from './pages/Profile'
 import Entrances from './pages/Entrances'
 import Expenses from './pages/Expenses'
+import Registers from './pages/Registers'
 
 import Header from './components/Header'
 
@@ -27,6 +28,7 @@ const App = () => {
                 <Route path="/entrances/:id" element={<Entrances />}></Route>
                 <Route path="/expenses" element={<Expenses />}></Route>
                 <Route path="/expenses/:id" element={<Expenses />}></Route>
+                <Route path="/registers" element={<Registers />}></Route>
             </Routes>
         </BrowserRouter>
     )

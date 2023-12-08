@@ -8,13 +8,9 @@ const Header = () => {
             <div className="grid grid-cols-3 gap-x-12 items-center max-w-6x mx-auto px-8 py-3">
                 <div className="w-fit">
                     <Link to={'/home'}>
-                        <h1 className=" border-2 border-zinc-100 border-opacity-0 font-bold text-sm sm:text-xl flex flex-wrap p-2 hover:border-zinc-400 hover:hue-rotate-180 hover:shadow-green-200 h-fit w-fit rounded-full transition-colors cursor-pointer hover:text-white">
-                            <span className="text-green-500 font-light">
-                                Quantum
-                            </span>
-                            <span className="text-green-900 font-light">
-                                .Auto
-                            </span>
+                        <h1 className="text-zinc-900 bg-zinc-200 border-2 border-zinc-100 border-opacity-0 font-bold text-sm sm:text-xl flex flex-wrap p-2 h-fit w-fit rounded-xl transition-colors cursor-pointer hover:text-zinc-100 hover:bg-blue-500">
+                            {/* <span className="font-bold">Quantum</span> */}
+                            <span className="font-thin">nome do sistema</span>
                         </h1>
                     </Link>
                 </div>
